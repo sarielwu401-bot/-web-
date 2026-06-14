@@ -270,8 +270,8 @@ def proxy_tide():
     loc = request.args.get('location')
     date = request.args.get('date')
     
-    key = 'f053547d0d854d4f979157f079993536'
-    api_host = 'ku487ta8ng.re.qweatherapi.com'
+    key = 'your_key'
+    api_host = 'your_api_host'
     url = f"https://{api_host}/v7/ocean/tide?location={loc}&date={date}&key={key}"
     
     headers = {

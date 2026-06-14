@@ -1,0 +1,35 @@
+### 1. 本地开发环境配置 (路径绝对准确)
+- **操作系统**：Windows 11 (64位)
+- **项目代码路径**：`D:\Code\MangroveProject` (含 `backend` 和 `frontend` 文件夹)
+- **代码编辑器**：VS Code (安装路径: `D:\DevTools\VSCode`)
+- **数据库工具**：DBeaver 25.3.4 (安装路径: `D:\DevTools\DBeaver`)
+- **Python环境**：Python 3.11.8 (安装路径: `C:\DevSoft\Python`)
+  - *注意：VS Code终端需使用此路径下的 python.exe，已配置 pip 镜像源*
+- **前端环境**：Node.js LTS版 (安装路径: `C:\DevSoft\Nodejs`)
+- **硬件IDE**：Arduino IDE 2.3.7 (安装路径: `C:\DevSoft\Arduino`) 选择DOIT ESP32 DEVKIT V1
+- **数据库服务**：MySQL 8.0.45 (密码`123456`，加密方式 `Legacy Authentication`)
+- **ESP32支持包**：v2.0.9 (使用离线安装包安装，**严禁点击IDE中的更新按钮升级到3.x**)
+
+### 2. 核心技术栈
+- **前端**：Vue 3 (Vite构建) + Element Plus (UI) + ECharts 5 (图表) + Leaflet (GIS地图) + Axios + Vue Router。
+- **后端**：Python Flask + Flask-CORS + PyMySQL + Requests (调API) + xlwt (导出Excel)。
+- **硬件**：C++ (Arduino Framework)。
+
+### 3. 硬件清单与接线配置 (双面包板拼接方案)
+- **主控板**：ESP32-WROOM-32 (Type-C接口, CH340驱动, 已焊排针)。
+- **供电策略**：通过 USB 线连接电脑供电。面包板红色列分两路：左侧接VIN(5V)，右侧接3V3。
+- **传感器接线表**：
+  1. **水温** (DS18B20, 带转接板)：数据线 -> GPIO 4 (接3.3V)
+  2. **水质pH** (PH-4502C, 黑色板, 不可充式)：PO -> GPIO 34 (VCC接VIN 5V)
+  3. **空气温湿度** (DHT11, 3针模块)：Data -> GPIO 5 (接3.3V)
+  4. **光照** (BH1750, GY-30)：SDA -> GPIO 21, SCL -> GPIO 22 (接3.3V)
+  5. **气压** (BMP280, 3.3V版)：SDA -> GPIO 21, SCL -> GPIO 22 (接3.3V，与光照并联)
+
+
+### 4. 数据库设计 (MySQL: mangrove_db)
+- `sys_users`: 存储用户 (admin/guest)。
+- `tb_station`: 存储站点信息 (1号为真实硬件，2-4号为模拟站点)。
+- `tb_threshold`: 存储各传感器的报警阈值 (管理员可改)。
+- `env_data`: 存储环境数据 (id, station_id, w_temp, ph, a_temp, hum, lux, press, soil, time)。
+- `bio_data`: 存储生物数据 (按月/年统计的真实科研数据导入)。
+- `alarm_log`: 存储报警日志 (触发时间、类型、数值)。
